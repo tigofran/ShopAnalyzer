@@ -17,9 +17,9 @@ bro = webdriver.Chrome('D:\Tiago\OneDrive - Universidade de Lisboa\Documentos\ch
 #continente
 cnt_response = bro.get(cnt_url)
 cnt_list = bro.find_elements_by_class_name('productItem')
-print('Encontrei {0} artigos!'.format(len(cnt_list)))
+print('Encontrei {0} artigos no continente.'.format(len(cnt_list)))
 
-t= PrettyTable(['Titulo', 'Marca', 'Quantidade', 'Preco1', 'Preco2'])
+t_cnt= PrettyTable(['Titulo', 'Marca', 'Quantidade', 'Preco1', 'Preco2'])
 
 for item in cnt_list[:10]:
     prod_title = item.find_element_by_class_name('title').text
@@ -32,14 +32,28 @@ for item in cnt_list[:10]:
     print('marca: %s' %prod_brand)
     print('quantidade: %s' %prod_quantity)
     print('preco principal: |%s|' %prod_price_main)
-    print('preco secundario: |%s|' %prod_price_second) """
+    print('preco secundario: |%s|' %prod_price_second)
+    print('titulo: {0} | marca: {1} | quantidade: {2} | preco_1: {3} | preco_2: {4}'.format(prod_title, prod_brand, prod_quantity, prod_price_main, prod_price_second)) """
+    
+    t_cnt.add_row([prod_title, prod_brand, prod_quantity, prod_price_main, prod_price_second])
+print(t_cnt)
 
+#pingo doce
+pd_response = bro.get(pd_url)
+pd_list = bro.find_elements_by_tag_name('pdo-product-item')
+print('Encontrei {0} artigos no pingo doce.'.format(len(pd_list)))
 
+t_pd = PrettyTable(['Titulo','Quantidade','Preco1','Preco2'])
 
-    #print('titulo: {0} | marca: {1} | quantidade: {2} | preco_1: {3} | preco_2: {4}'.format(prod_title, prod_brand, prod_quantity, prod_price_main, prod_price_second))
-    t.add_row([prod_title, prod_brand, prod_quantity, prod_price_main, prod_price_second])
-print(t)
+for item in pd_list[:10]:
+    prod_title = item.find_element_by_tag_name('h3').text
+    prod_quantity = item.find_element_by_tag_name('pdo-product-price-per-unit').text.split('|')[0]
+    prod_price_main = item.find_element_by_tag_name('pdo-product-price-tag').find_element_by_tag_name('span').text
+    prod_price_second = item.find_element_by_tag_name('pdo-product-price-per-unit').text.split('|')[1]
 
-
+    #print('titulo: {0} |  quantidade: {2} | preco_1: {3} | preco_2: {4}'.format(prod_title, prod_quantity, prod_price_main, prod_price_second))
+    
+    t_pd.add_row([prod_title, prod_quantity, prod_price_main, prod_price_second])
+print(t_pd)
 
 
