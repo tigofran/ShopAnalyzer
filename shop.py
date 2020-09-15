@@ -13,11 +13,13 @@ options = webdriver.ChromeOptions()
 options.add_argument("headless") #comentar esta linha para o browser aparecer
 options.add_argument("--log-level=3")  #apenas mostra avisos fatais na consola
 options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina o aviso devtools
-if os.name != "posix":
-    bro = webdriver.Chrome('D:\Tiago\OneDrive - Universidade de Lisboa\Documentos\chromedriver.exe', options=options)
-else:
-    bro = webdriver.Chrome('/home/tigofran/Documents/chromedriver',options = options)
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
+GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
+options.binary_location = GOOGLE_CHROME_PATH
 
+browser = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, options=options)
 #continente
 def prices_continente(keyword):
     cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword #+ "#/?pl=xx"
