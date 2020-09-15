@@ -19,7 +19,7 @@ GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 options.binary_location = GOOGLE_CHROME_PATH
 
-browser = webdriver.Chrome(execution_path=CHROMEDRIVER_PATH, options=options)
+browser = webdriver.Chrome(CHROMEDRIVER_PATH, options=options)
 #continente
 def prices_continente(keyword):
     cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword #+ "#/?pl=xx"
