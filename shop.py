@@ -15,9 +15,10 @@ options.add_argument("--log-level=3")  #apenas mostra avisos fatais na consola
 options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina o aviso devtools
 options.add_argument('--disable-gpu')
 options.add_argument('--no-sandbox')
-GOOGLE_CHROME_PATH = '/app/.apt/usr/bin/google_chrome'
+
+chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', None)
+options.binary_location = chrome_bin
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
-options.binary_location = GOOGLE_CHROME_PATH
 
 browser = webdriver.Chrome(CHROMEDRIVER_PATH, options=options)
 #continente
