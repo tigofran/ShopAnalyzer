@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from prettytable import PrettyTable
 import re
+import os
 from flask import Flask
 
 
@@ -12,7 +13,10 @@ options = webdriver.ChromeOptions()
 options.add_argument("headless") #comentar esta linha para o browser aparecer
 options.add_argument("--log-level=3")  #apenas mostra avisos fatais na consola
 options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina o aviso devtools
-bro = webdriver.Chrome('D:\Tiago\OneDrive - Universidade de Lisboa\Documentos\chromedriver.exe', options=options)
+if os.name != "posix":
+    bro = webdriver.Chrome('D:\Tiago\OneDrive - Universidade de Lisboa\Documentos\chromedriver.exe', options=options)
+else:
+    bro = webdriver.Chrome('/home/tigofran/Documents/chromedriver',options = options)
 
 #continente
 def prices_continente(keyword):
@@ -23,7 +27,7 @@ def prices_continente(keyword):
 
     t_cnt= PrettyTable(['Titulo', 'Marca', 'Quantidade', 'Preco1', 'Preco2'])
 
-    for item in cnt_list[:10]:
+    for item in cnt_list:
         prod_title = item.find_element_by_class_name('title').text
         prod_brand = item.find_element_by_class_name('type').text
         prod_quantity = item.find_element_by_class_name('subTitle').text
