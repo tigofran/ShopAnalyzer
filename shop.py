@@ -20,7 +20,7 @@ chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', None)
 options.binary_location = chrome_bin
 CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
-browser = webdriver.Chrome(CHROMEDRIVER_PATH, options=options)
+bro = webdriver.Chrome(CHROMEDRIVER_PATH, options=options)
 #continente
 def prices_continente(keyword):
     cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword #+ "#/?pl=xx"
