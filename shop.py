@@ -91,7 +91,6 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return "MAIN PAGE"
-
 @app.route("/c/<keyword>")
 def get_continente(keyword):
     return prices_continente(keyword).get_html_string()
