@@ -4,9 +4,6 @@ from prettytable import PrettyTable
 import re
 import os
 from flask import Flask
-from bs4 import BeautifulSoup
-
-
 
 #print('Termo a pesquisar: ', end='')
 
@@ -27,8 +24,6 @@ bro = webdriver.Chrome(chromedriver_path, options=options)
 def prices_continente(keyword):
     cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword
     cnt_response = bro.get(cnt_url)
-    soup = BeautifulSoup(bro.page_source)
-    print(soup.prettify)
     print(cnt_response)
     cnt_list = bro.find_elements_by_class_name('productItem')
     print('Encontrei {0} artigos no continente.'.format(len(cnt_list)))
