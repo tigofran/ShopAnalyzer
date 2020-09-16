@@ -4,6 +4,7 @@ from prettytable import PrettyTable
 import re
 import os
 from flask import Flask
+from bs4 import BeautifulSoup
 
 
 
@@ -14,17 +15,21 @@ options.add_argument("headless") #comentar esta linha para o browser aparecer
 options.add_argument("--log-level=3")  #apenas mostra avisos fatais na consola
 options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina o aviso devtools
 options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
+#options.add_argument('--no-sandbox')
 
 chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', None)
+chromedriver_path = os.environ.get('CHROMEDRIVER_PATH',None)
 options.binary_location = chrome_bin
-CHROMEDRIVER_PATH = '/app/.chromedriver/bin/chromedriver'
 
-bro = webdriver.Chrome(CHROMEDRIVER_PATH, options=options)
+
+bro = webdriver.Chrome(chromedriver_path, options=options)
 #continente
 def prices_continente(keyword):
-    cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword #+ "#/?pl=xx"
+    cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword
     cnt_response = bro.get(cnt_url)
+    soup = BeautifulSoup(bro.page_source)
+    print(soup.prettify)
+    print(cnt_response)
     cnt_list = bro.find_elements_by_class_name('productItem')
     print('Encontrei {0} artigos no continente.'.format(len(cnt_list)))
 
@@ -64,7 +69,7 @@ def prices_pingodoce(keyword):
 
 
 #auchan
-def prices_auchan():
+def prices_auchan(keyword):
     auc_url= "https://www.auchan.pt/Frontoffice/search/" + keyword
     auc_response = bro.get(auc_url)
     auc_list = bro.find_elements_by_class_name('product-item-border')
@@ -97,6 +102,12 @@ def home():
 @app.route("/c/<keyword>")
 def get_continente(keyword):
     return prices_continente(keyword).get_html_string()
+@app.route("/p/<keyword>")
+def get_pingodoce(keyword):
+    return prices_pingodoce(keyword).get_html_string()
+@app.route("/a/<keyword>")
+def get_auchan(keyword):
+    return prices_auchan(keyword).get_html_string()
 
 
 if __name__ == "__main__":
