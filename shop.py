@@ -12,7 +12,7 @@ options.add_argument("headless") #comentar esta linha para o browser aparecer
 options.add_argument("--log-level=3")  #apenas mostra avisos fatais na consola
 options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina o aviso devtools
 options.add_argument('--disable-gpu')
-#options.add_argument('--no-sandbox')
+options.add_argument('--no-sandbox')
 
 chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', None)
 chromedriver_path = os.environ.get('CHROMEDRIVER_PATH',None)
