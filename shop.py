@@ -18,6 +18,8 @@ options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina 
 options.add_argument('--disable-gpu')
 options.add_argument('--no-sandbox')
 options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument('user-agent=josesantos1987')
+
 
 chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', None)
 chromedriver_path = os.environ.get('CHROMEDRIVER_PATH',None)
