@@ -1,5 +1,8 @@
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from prettytable import PrettyTable
 import re
 import os
@@ -14,6 +17,7 @@ options.add_argument("--log-level=3")  #apenas mostra avisos fatais na consola
 options.add_experimental_option('excludeSwitches', ['enable-logging']) #elimina o aviso devtools
 options.add_argument('--disable-gpu')
 options.add_argument('--no-sandbox')
+options.add_argument("--disable-blink-features=AutomationControlled")
 
 chrome_bin = os.environ.get('GOOGLE_CHROME_BIN', None)
 chromedriver_path = os.environ.get('CHROMEDRIVER_PATH',None)
@@ -25,9 +29,9 @@ bro = webdriver.Chrome(chromedriver_path, options=options)
 def prices_continente(keyword):
     cnt_url= "https://www.continente.pt/pt-pt/public/Pages/searchresults.aspx?k=" + keyword
     cnt_response = bro.get(cnt_url)
-    print(cnt_response)
+    bro.find_element_by_xpath("/html").click()
     cnt_list = bro.find_elements_by_class_name('productItem')
-    print('Encontrei {0} artigos no continente.'.format(len(cnt_list)))
+    print('Encontrei {0} artigos no continente.'.format(len(cnt_list)), flush=True)
 
     t_cnt= PrettyTable(['Titulo', 'Marca', 'Quantidade', 'Preco1', 'Preco2'])
 
@@ -123,4 +127,4 @@ def get_auchan(keyword):
 
 
 if __name__ == "__main__":
-    app.run(host="192.168.1.6", port = "5000",threaded=True)
+    app.run(host="0.0.0.0", port = "5000",threaded=True)
