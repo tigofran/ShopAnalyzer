@@ -3,7 +3,8 @@ from selenium.common.exceptions import NoSuchElementException
 from prettytable import PrettyTable
 import re
 import os
-from flask import Flask
+import sys
+from flask import Flask, render_template, request, redirect
 
 #print('Termo a pesquisar: ', end='')
 
@@ -91,9 +92,25 @@ def prices_auchan(keyword):
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
-    return "MAIN PAGE"
+    return render_template("index.html")
+
+@app.route("/process", methods = ["GET", "POST"])
+def process_site():
+    if len(request.form['pesquisa']) == 0:
+        return redirect('/')
+    if request.form["loja"] == "Continente":
+        nexturl = '/c/'
+    elif request.form["loja"] == "Pingo Doce":
+        nexturl = '/p/'
+    else:
+        nexturl = '/a/'
+    nexturl += request.form['pesquisa']
+    return redirect(nexturl)
+
+    
+    
 @app.route("/c/<keyword>")
 def get_continente(keyword):
     return prices_continente(keyword).get_html_string()
